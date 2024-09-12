@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-success" role="alert">
+            Total Finish Time : {{ data.total }} hour
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {% for developerKey,developer in data.result %}
+            <h3>{{ developerKey }} - {{ developer.0.developerDegree }}x</h3>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Job Id</th>
+                <th scope="col">difficulty</th>
+                <th scope="col">duration</th>
+                <th scope="col">finish duration</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% set DeveloperTotalFinishTime = 0 %}
+              {% for job in developer.0.result  %}
+                {% set DeveloperTotalFinishTime = DeveloperTotalFinishTime + (job.difficulty / developer.0.developerDegree) %}
+                <tr>
+                  <th >{{ job.id }}</th>
+                  <th >{{ job.difficulty }}</th>
+                  <th >{{ job.duration }}</th>
+                  <th >{{ job.difficulty / developer.0.developerDegree }}</th>
+                </tr>
+              {% endfor %}
+              <tr>
+                <th></th>
+                <th></th>
+                <th>Total : </th>
+                <th>{{ DeveloperTotalFinishTime }}</th>
+              </tr>
+              </tbody>
+            </table>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+</div>
+{% endblock %}
